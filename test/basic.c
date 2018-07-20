@@ -1,5 +1,6 @@
 #include <libmalloc.h>
 #include <string.h>
+#include "test.h"
 
 static int		check(void *m, unsigned int size)
 {
@@ -10,8 +11,7 @@ static int		check(void *m, unsigned int size)
 	i = 0;
 	while (i < size)
 	{
-		if (s[i] != 'c')
-			return (0);
+		RETURN_IF(s[i] != 'c');
 		i++;
 	}
 	return (1);

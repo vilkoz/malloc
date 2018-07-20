@@ -6,6 +6,7 @@ static const t_test_provider	g_tests[] = {
 	basic_test,
 	error_test,
 	free_test,
+	realloc_test,
 	NULL
 };
 

@@ -6,6 +6,7 @@ SRC=test.c					\
 	basic.c					\
 	error.c					\
 	free.c					\
+	realloc.c				\
 
 BINS=$(SRC:.c=.o)
 
@@ -15,17 +16,17 @@ FLAGS=-Wall -Wextra -Werror -g
 	gcc $(FLAGS) -I ../include/ -c -o $@ $<
 
 $(NAME): $(BINS)
-	gcc $(FLAGS) -o $(NAME) -L ../ -lmalloc $(BINS)
+	gcc $(FLAGS) -o $(NAME) $(BINS)
 
 clean:
 	/bin/rm -f $(BINS)
 
-fclean:
+fclean: clean
 	/bin/rm -f $(NAME)
 
 re: fclean all
 
 run: $(NAME)
-	./$(NAME)
+	LD_PRELOAD=../libmalloc.so ./$(NAME)
 
 .PHONY: re fclean clean all run
