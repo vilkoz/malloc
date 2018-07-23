@@ -10,9 +10,9 @@ int		realloc_test(void)
 	size = 0xBEEF;
 	m = realloc(NULL, size);
 	RETURN_IF(m == NULL);
-	n = realloc(m, size);
+	n = realloc(m, size / 2);
 	RETURN_IF(m != n);
-	m = realloc(n, size * 2);
+	m = realloc(n, size * 10);
 	RETURN_IF(m == n);
 	return (1);
 }

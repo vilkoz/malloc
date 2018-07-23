@@ -8,7 +8,6 @@ void		*realloc(void *ptr, size_t size)
 	t_block_meta	*b;
 	void			*p;
 
-	return (NULL);
 	if (!ptr)
 		return (malloc(size));
 	b = GET_META_PTR(ptr);

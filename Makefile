@@ -35,6 +35,7 @@ fclean: clean
 re: fclean all
 
 test: $(NAME)
+	make -C test re
 	make -C test run
 
 .PHONY: re fclean clean all test

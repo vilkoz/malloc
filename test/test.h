@@ -2,6 +2,9 @@
 # define TEST_H
 
 # include <stdio.h>
+# include <unistd.h>
+
+# define WRITE(s) write(1, s, sizeof(s))
 
 typedef int		(*t_test_provider)(void);
 
@@ -14,7 +17,7 @@ int				realloc_test(void);
 			do {																\
 				if (b)															\
 				{																\
-					printf("FAIL on %s:%d\n", __FILE__, __LINE__);		\
+					printf("FAIL on %s:%d\n", __FILE__, __LINE__);				\
 					return (0);													\
 				}																\
 			} while(0)

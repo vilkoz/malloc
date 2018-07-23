@@ -12,6 +12,8 @@ static t_block_meta	*request_block(size_t size, t_block_meta *last)
 	void			*s;
 	t_block_meta	*b;
 
+	if (size + META_SIZE < size)
+		return (NULL);
 	s = mmap(NULL,
 			size + META_SIZE,
 			PROT_READ|PROT_WRITE,
@@ -22,7 +24,7 @@ static t_block_meta	*request_block(size_t size, t_block_meta *last)
 		return (NULL);
 	b = (t_block_meta*)s;
 	b->next = NULL;
-	b->free = 0;
+	b->free = 1;
 	b->magic = META_MAGIC;
 	b->size = size;
 	if (last)
@@ -53,15 +55,9 @@ static int			check_limit(size_t size)
 {
 	t_rlimit		rlimit;
 
-	if (getrlimit(RLIMIT_AS, &rlimit) == -1)
+	if (getrlimit(RLIMIT_AS, &rlimit) == -1 || rlimit.rlim_cur < size)
 		return (0);
-	printf("1 rlmit cur: %zu\n", rlimit.rlim_cur);
-	if (rlimit.rlim_cur < size)
-		return (0);
-	if (getrlimit(RLIMIT_DATA, &rlimit) == -1)
-		return (0);
-	printf("2 rlmit cur: %zu\n", rlimit.rlim_cur);
-	if (rlimit.rlim_cur < size)
+	if (getrlimit(RLIMIT_DATA, &rlimit) == -1 || rlimit.rlim_cur < size)
 		return (0);
 	return (1);
 }
@@ -90,5 +86,6 @@ void				*malloc(size_t size)
 		return (NULL);
 	if (g_base == NULL)
 		g_base = b;
+	b->free = 0;
 	return ((void*)(b + 1));
 }

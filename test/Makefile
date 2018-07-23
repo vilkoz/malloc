@@ -27,6 +27,7 @@ fclean: clean
 re: fclean all
 
 run: $(NAME)
+	./$(NAME)
 	LD_PRELOAD=../libmalloc.so ./$(NAME)
 
 .PHONY: re fclean clean all run
