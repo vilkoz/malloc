@@ -9,13 +9,16 @@ BIN_DIR=bin/
 INCLUDE_DIR=include/
 
 SRC_FILES=malloc.c							\
+		  request_block.c					\
 		  realloc.c							\
+		  zones.c							\
+		  putnbr.c
 
 SRC=$(addprefix $(SRC_DIR), $(SRC_FILES))
 
 BINS=$(addprefix $(BIN_DIR), $(SRC:.c=.o))
 
-FLAGS=-Wall -Wextra -Werror -fPIC -g
+FLAGS=-Wall -Wextra -Werror -fPIC -g -DDEBUG
 
 LINKER_FLAGS=-shared
 
@@ -38,4 +41,12 @@ test: $(NAME)
 	make -C test re
 	make -C test run
 
-.PHONY: re fclean clean all test
+test_trace: $(NAME)
+	make -C test re
+	make -C test trace
+
+test_strace: $(NAME)
+	make -C test re
+	make -C test strace
+
+.PHONY: re fclean clean all test test_trace test_strace

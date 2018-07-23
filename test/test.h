@@ -12,6 +12,7 @@ int				basic_test(void);
 int				error_test(void);
 int				free_test(void);
 int				realloc_test(void);
+int				show_alloc_mem_test(void);
 
 #define RETURN_IF(b)															\
 			do {																\

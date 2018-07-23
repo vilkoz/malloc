@@ -7,6 +7,7 @@ static const t_test_provider	g_tests[] = {
 	error_test,
 	free_test,
 	realloc_test,
+	show_alloc_mem_test,
 	NULL
 };
 

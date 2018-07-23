@@ -1,6 +1,7 @@
 #include <libmalloc.h>
 #include <string.h>
 #include "test.h"
+#include <dlfcn.h>
 
 static int		check(void *m, unsigned int size)
 {
@@ -21,9 +22,19 @@ int				basic_test(void)
 {
 	void			*m;
 	unsigned int	size;
+	int				res;
+	void		*handle;
+	void		(*show_alloc_mem)(void);
+
+	handle = dlopen("../libmalloc.so", RTLD_LAZY);
+	show_alloc_mem = (void (*)(void))dlsym(handle, "show_alloc_mem");
 
 	size = 0xFFFFFF;
+	show_alloc_mem();
 	m = malloc(size);
+	show_alloc_mem();
 	memset(m, 'c', size);
-	return check(m, size);
+	res = check(m, size);
+	free(m);
+	return (res);
 }

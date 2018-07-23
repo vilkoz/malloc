@@ -12,7 +12,8 @@ int		realloc_test(void)
 	RETURN_IF(m == NULL);
 	n = realloc(m, size / 2);
 	RETURN_IF(m != n);
-	m = realloc(n, size * 10);
+	m = realloc(n, size * 1000);
 	RETURN_IF(m == n);
+	free(m);
 	return (1);
 }

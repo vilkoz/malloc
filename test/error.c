@@ -15,5 +15,6 @@ int		error_test(void)
 	RETURN_IF(m != NULL);
 	m = malloc(0xFFFFFFFFULL);
 	RETURN_IF(m == NULL);
+	free(m);
 	return (1);
 }
