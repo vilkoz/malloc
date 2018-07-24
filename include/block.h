@@ -24,9 +24,7 @@ typedef enum			e_zone_type
 # define META_MAGIC (0x11223344)
 # define GET_META_PTR(m) (((t_block_meta*)m) - 1)
 # define TINY_MAX_SIZE (200)
-# define TINY_ZONE_SIZE (256)
 # define SMALL_MAX_SIZE (820)
-# define SMALL_ZONE_SIZE (1024)
 # define PREALLOCATE_ZONE_COUNT (2)
 
 t_block_meta			*request_block(size_t size, t_block_meta *last);

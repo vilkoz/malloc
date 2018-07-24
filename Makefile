@@ -8,25 +8,31 @@ BIN_DIR=bin/
 
 INCLUDE_DIR=include/
 
+INCLUDES_FILES=block.h							\
+			   libmalloc.h						\
+			   limit.h							\
+
+INCLUDES=$(addprefix $(INCLUDE_DIR), $(INCLUDES_FILES))
+
 SRC_FILES=malloc.c							\
 		  request_block.c					\
 		  realloc.c							\
 		  zones.c							\
-		  putnbr.c
+		  putnbr.c							\
 
 SRC=$(addprefix $(SRC_DIR), $(SRC_FILES))
 
 BINS=$(addprefix $(BIN_DIR), $(SRC:.c=.o))
 
-FLAGS=-Wall -Wextra -Werror -fPIC -g -DDEBUG
+FLAGS=-Wall -Wextra -Werror -fPIC -g
 
 LINKER_FLAGS=-shared
 
-$(BIN_DIR)%.o: %.c
+$(BIN_DIR)%.o: %.c $(INCLUDES)
 	@mkdir -p $(shell dirname $@)
 	gcc $(FLAGS) -I $(INCLUDE_DIR) -c -o $@ $<
 
-$(NAME): $(BINS)
+$(NAME): $(BINS) $(INCLUDES)
 	gcc $(FLAGS) $(LINKER_FLAGS) -o $(NAME) $(BINS)
 
 clean:

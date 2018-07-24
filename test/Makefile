@@ -11,13 +11,13 @@ SRC=test.c					\
 
 BINS=$(SRC:.c=.o)
 
-FLAGS=-Wall -Wextra -Werror -g -DDEBUG
+FLAGS=-Wall -Wextra -Werror -g
 
 %.o: %.c
 	gcc $(FLAGS) -I ../include/ -c -o $@ $<
 
 $(NAME): $(BINS)
-	gcc $(FLAGS) -o $(NAME) $(BINS) -ldl
+	gcc $(FLAGS) -o $(NAME) $(BINS) -L.. -lmalloc
 
 clean:
 	/bin/rm -f $(BINS)
@@ -28,15 +28,12 @@ fclean: clean
 re: fclean all
 
 run: $(NAME)
-	./$(NAME)
-	LD_PRELOAD=../libmalloc.so ./$(NAME)
+	LD_LIBRARY_PATH=../ ./$(NAME)
 
 trace: $(NAME)
-	ltrace env LD_PRELOAD=../libmalloc.so ./$(NAME)
-	# ltrace ./$(NAME)
+	ltrace env LD_LIBRARY_PATH=../ ./$(NAME)
 
 strace: $(NAME)
-	strace env LD_PRELOAD=../libmalloc.so ./$(NAME)
-	# strace ./$(NAME)
+	strace env LD_LIBRARY_PATH=../ ./$(NAME)
 
 .PHONY: re fclean clean all run trace strace

@@ -4,8 +4,8 @@
 #include "output.h"
 
 static size_t		g_alloc_sizes[3] = {
-	TINY_ZONE_SIZE,
-	SMALL_ZONE_SIZE,
+	TINY_MAX_SIZE,
+	SMALL_MAX_SIZE,
 	0
 };
 
