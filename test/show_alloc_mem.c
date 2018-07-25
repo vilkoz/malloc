@@ -7,9 +7,9 @@ int		show_alloc_mem_test(void)
 
 	b[0] = malloc(64);
 	RETURN_IF(b[0] == NULL);
-	b[1] = malloc(200 + 1);
+	b[1] = malloc(2048 + 1);
 	RETURN_IF(b[1] == NULL);
-	b[2] = malloc(820 + 1);
+	b[2] = malloc(4096 + 1);
 	RETURN_IF(b[2] == NULL);
 	show_alloc_mem();
 	free(b[2]);

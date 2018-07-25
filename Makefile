@@ -18,12 +18,13 @@ SRC_FILES=malloc.c							\
 		  request_block.c					\
 		  realloc.c							\
 		  zones.c							\
-		  putnbr.c							\
+		  output.c							\
 
 SRC=$(addprefix $(SRC_DIR), $(SRC_FILES))
 
 BINS=$(addprefix $(BIN_DIR), $(SRC:.c=.o))
 
+# FLAGS=-Wall -Wextra -Werror -fPIC -g -DDEBUG
 FLAGS=-Wall -Wextra -Werror -fPIC -g
 
 LINKER_FLAGS=-shared
@@ -32,7 +33,7 @@ $(BIN_DIR)%.o: %.c $(INCLUDES)
 	@mkdir -p $(shell dirname $@)
 	gcc $(FLAGS) -I $(INCLUDE_DIR) -c -o $@ $<
 
-$(NAME): $(BINS) $(INCLUDES)
+$(NAME): $(BINS)
 	gcc $(FLAGS) $(LINKER_FLAGS) -o $(NAME) $(BINS)
 
 clean:
@@ -43,7 +44,7 @@ fclean: clean
 
 re: fclean all
 
-test: $(NAME)
+test: re $(NAME)
 	make -C test re
 	make -C test run
 

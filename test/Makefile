@@ -11,7 +11,7 @@ SRC=test.c					\
 
 BINS=$(SRC:.c=.o)
 
-FLAGS=-Wall -Wextra -Werror -g
+FLAGS=-Wall -Wextra -Werror -g -DDEBUG
 
 %.o: %.c
 	gcc $(FLAGS) -I ../include/ -c -o $@ $<

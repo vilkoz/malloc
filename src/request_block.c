@@ -23,7 +23,6 @@ t_block_meta	*request_block(size_t size, t_block_meta *last)
 	b->free = 1;
 	b->magic = META_MAGIC;
 	b->size = size;
-	b->type = select_zone_type(size);
 	if (last)
 		last->next = b;
 	return (b);

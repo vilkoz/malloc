@@ -23,6 +23,8 @@ static t_block_meta	*find_free_block(size_t size)
 	if (current == NULL)
 	{
 		current = request_block(size, last);
+		if (current)
+			current->type = select_zone_type(size);
 	}
 	if (g_base[select_zone_type(size)] == NULL)
 		g_base[select_zone_type(size)] = current;
@@ -52,8 +54,14 @@ void				DEBUG_NAME(free)(void *m)
 	if (!m)
 		return ;
 	b = GET_META_PTR(m);
-	assert(b->free == 0);
-	assert(b->magic == META_MAGIC);
+	if (b->free != 0)
+		return (void)IF_DEBUG(WRITE("DOUBLE FREE!\n"));
+	if (b->magic != META_MAGIC)
+	{
+		IF_DEBUG(WRITE("CORRUPTED POINTER: MAGIC("));
+		IF_DEBUG(PUTHEX(b->magic));
+		IF_DEBUG(WRITE(")\n"));
+	}
 	b->free = 1;
 	if (b->type == ZONE_LARGE)
 	{
