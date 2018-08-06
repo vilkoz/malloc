@@ -12,18 +12,18 @@ void		*realloc(void *ptr, size_t size)
 	if (!ptr)
 		return (malloc(size));
 	b = GET_META_PTR(ptr);
-	/* assert(b->magic == META_MAGIC); */
+	assert(b->magic == META_MAGIC);
 	assert(b->free == 0);
-	/* if (b->magic != META_MAGIC) */
-	/* { */
-	/* 	IF_DEBUG(WRITE("CORRUPTED POINTER!\n")); */
-	/* 	return (NULL); */
-	/* } */
+	if (b->magic != META_MAGIC)
+	{
+		IF_DEBUG(WRITE("CORRUPTED POINTER!\n"));
+		return (NULL);
+	}
 	if (b->size >= size)
 		return (ptr);
 	if ((p = malloc(size)) == NULL)
 		return (NULL);
 	memcpy(p, ptr, b->size);
 	free(ptr);
-	return(p);
+	return (p);
 }

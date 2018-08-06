@@ -12,8 +12,8 @@ t_block_meta	*request_block(size_t size, t_block_meta *last)
 		return (NULL);
 	s = mmap(NULL,
 			size + META_SIZE,
-			PROT_READ|PROT_WRITE,
-			MAP_PRIVATE|MAP_ANONYMOUS,
+			PROT_READ | PROT_WRITE,
+			MAP_PRIVATE | MAP_ANONYMOUS,
 			-1,
 			0);
 	if (s == (void*)-1)
@@ -47,7 +47,6 @@ void			release_block(t_block_meta *block,
 		last->next = current->next;
 	if (current == base[block->type])
 		base[block->type] = current->next;
-
 	size = block->size + META_SIZE;
 	assert(munmap(block, size) != -1);
 }
