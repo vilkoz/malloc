@@ -1,4 +1,4 @@
-NAME=libmalloc.so
+NAME=libft_malloc.so
 
 all: $(NAME)
 
@@ -24,23 +24,29 @@ SRC=$(addprefix $(SRC_DIR), $(SRC_FILES))
 
 BINS=$(addprefix $(BIN_DIR), $(SRC:.c=.o))
 
-# FLAGS=-Wall -Wextra -Werror -fPIC -g -DDEBUG
-FLAGS=-Wall -Wextra -Werror -fPIC -g
+FLAGS=-Wall -Wextra -Werror -fPIC -g -DDEBUG
+# FLAGS=-Wall -Wextra -Werror -fPIC -g
 
 LINKER_FLAGS=-shared
+
+ifeq ($(HOSTTYPE),)
+	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
+endif
 
 $(BIN_DIR)%.o: %.c $(INCLUDES)
 	@mkdir -p $(shell dirname $@)
 	gcc $(FLAGS) -I $(INCLUDE_DIR) -c -o $@ $<
 
 $(NAME): $(BINS)
-	gcc $(FLAGS) $(LINKER_FLAGS) -o $(NAME) $(BINS)
+	gcc $(FLAGS) $(LINKER_FLAGS) -o libft_malloc_$(HOSTTYPE).so $(BINS)
+	ln -s libft_malloc_$(HOSTTYPE).so $(NAME)
 
 clean:
 	/bin/rm -f $(BINS)
 
 fclean: clean
 	/bin/rm -f $(NAME)
+	/bin/rm -f libft_malloc_$(HOSTTYPE).so
 
 re: fclean all
 

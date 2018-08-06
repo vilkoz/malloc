@@ -17,7 +17,7 @@ FLAGS=-Wall -Wextra -Werror -g -DDEBUG
 	gcc $(FLAGS) -I ../include/ -c -o $@ $<
 
 $(NAME): $(BINS)
-	gcc $(FLAGS) -o $(NAME) $(BINS) -L.. -lmalloc
+	gcc $(FLAGS) -o $(NAME) $(BINS) -L.. -lft_malloc
 
 clean:
 	/bin/rm -f $(BINS)
