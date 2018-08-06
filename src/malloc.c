@@ -47,7 +47,7 @@ t_block_meta		**get_block_base(void)
 	return ((t_block_meta**)&(g_base[0]));
 }
 
-void				DEBUG_NAME(free)(void *m)
+void				free(void *m)
 {
 	t_block_meta	*b;
 
@@ -69,7 +69,7 @@ void				DEBUG_NAME(free)(void *m)
 	}
 }
 
-void				*DEBUG_NAME(malloc)(size_t size)
+void				*malloc(size_t size)
 {
 	t_block_meta	*b;
 
