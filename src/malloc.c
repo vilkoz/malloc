@@ -6,19 +6,19 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:42:49 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/08/18 14:42:49 by vrybalko         ###   ########.fr       */
+/*   Updated: 2019/01/19 17:02:29 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "limit.h"
 #include "libmalloc.h"
 #include "block.h"
-#include <stdio.h>
 #include <assert.h>
-
+#include <pthread.h>
 #include "output.h"
 
 static void			*g_base[3] = {NULL, NULL, NULL};
+pthread_mutex_t		g_malloc_mutex;
 
 static t_block_meta	*find_free_block(size_t size)
 {
@@ -59,32 +59,11 @@ t_block_meta		**get_block_base(void)
 	return ((t_block_meta**)&(g_base[0]));
 }
 
-void				free(void *m)
-{
-	t_block_meta	*b;
-
-	if (!m)
-		return ;
-	b = GET_META_PTR(m);
-	if (b->free != 0)
-		return (void)IF_DEBUG(WRITE("DOUBLE FREE!\n"));
-	if (b->magic != META_MAGIC)
-	{
-		IF_DEBUG(WRITE("CORRUPTED POINTER: MAGIC("));
-		IF_DEBUG(PUTHEX(b->magic));
-		IF_DEBUG(WRITE(")\n"));
-	}
-	b->free = 1;
-	if (b->type == ZONE_LARGE)
-	{
-		release_block(b, (t_block_meta**)&(g_base[0]));
-	}
-}
-
 void				*malloc(size_t size)
 {
 	t_block_meta	*b;
 
+	pthread_mutex_lock(&g_malloc_mutex);
 	if (g_base[ZONE_TINY] == NULL || g_base[ZONE_SMALL] == NULL)
 	{
 		preallocate_zones((t_block_meta**)&(g_base[0]));
@@ -96,5 +75,6 @@ void				*malloc(size_t size)
 	if ((b = find_free_block(size)) == NULL)
 		return (NULL);
 	b->free = 0;
+	pthread_mutex_unlock(&g_malloc_mutex);
 	return ((void*)(b + 1));
 }

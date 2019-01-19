@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:44:00 by vrybalko          #+#    #+#             */
-/*   Updated: 2018/08/18 14:44:00 by vrybalko         ###   ########.fr       */
+/*   Updated: 2019/01/19 16:48:44 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define PUTSTR(s) ft_putstr((char*)(s))
 # define PUTHEX(s) ft_puthex((unsigned long long)(s))
 # ifndef DEBUG_PRINT
-#  define DEBUG_PRINT 1
+#  define DEBUG_PRINT 0
 # endif
 # define IF_DEBUG(s) (void)((DEBUG_PRINT) ? (s) : 0)
 

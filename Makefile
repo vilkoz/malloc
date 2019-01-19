@@ -15,8 +15,10 @@ INCLUDES_FILES=block.h							\
 INCLUDES=$(addprefix $(INCLUDE_DIR), $(INCLUDES_FILES))
 
 SRC_FILES=malloc.c							\
+		  free.c							\
 		  request_block.c					\
 		  realloc.c							\
+		  show_alloc_mem.c					\
 		  zones.c							\
 		  output.c							\
 
@@ -24,7 +26,7 @@ SRC=$(addprefix $(SRC_DIR), $(SRC_FILES))
 
 BINS=$(addprefix $(BIN_DIR), $(SRC:.c=.o))
 
-FLAGS=-Wall -Wextra -Werror -fPIC -g -DDEBUG
+FLAGS=-Wall -Wextra -Werror -fPIC -g -DDEBUG_PRINT=0
 # FLAGS=-Wall -Wextra -Werror -fPIC -g
 
 LINKER_FLAGS=-shared
@@ -39,7 +41,7 @@ $(BIN_DIR)%.o: %.c $(INCLUDES)
 
 $(NAME): $(BINS)
 	gcc $(FLAGS) $(LINKER_FLAGS) -o libft_malloc_$(HOSTTYPE).so $(BINS)
-	ln -s libft_malloc_$(HOSTTYPE).so $(NAME)
+	ln -fs libft_malloc_$(HOSTTYPE).so $(NAME)
 
 clean:
 	/bin/rm -f $(BINS)
