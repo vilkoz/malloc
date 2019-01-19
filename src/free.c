@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 16:56:58 by vrybalko          #+#    #+#             */
-/*   Updated: 2019/01/19 17:08:19 by vrybalko         ###   ########.fr       */
+/*   Updated: 2019/01/19 18:42:03 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static t_block_meta		*validate_block(void *m)
 	b = GET_META_PTR(m);
 	if (!is_pointer_valid(m))
 	{
-		IF_DEBUG(WRITE("INVALID POINTER!\n"));
+		IF_DEBUG(WRITE("free: INVALID POINTER!\n"));
 		return (NULL);
 	}
 	if (b->free != 0)

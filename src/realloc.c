@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:42:49 by vrybalko          #+#    #+#             */
-/*   Updated: 2019/01/19 17:13:45 by vrybalko         ###   ########.fr       */
+/*   Updated: 2019/01/19 18:39:45 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ static t_block_meta		*validate_block(void *ptr)
 {
 	t_block_meta	*b;
 
+	if (!is_pointer_valid(ptr))
+	{
+		IF_DEBUG(WRITE("realloc: INVALID POINTER!\n"));
+		return (NULL);
+	}
 	b = GET_META_PTR(ptr);
 	if (b->free != 0)
 	{

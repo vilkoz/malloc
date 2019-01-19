@@ -26,7 +26,10 @@ SRC=$(addprefix $(SRC_DIR), $(SRC_FILES))
 
 BINS=$(addprefix $(BIN_DIR), $(SRC:.c=.o))
 
-FLAGS=-Wall -Wextra -Werror -fPIC -g -DDEBUG_PRINT=0
+FLAGS=-Wall -Wextra -Werror -fPIC -g
+ifneq ($(D),)
+	FLAGS += -DDEBUG_PRINT=1
+endif
 # FLAGS=-Wall -Wextra -Werror -fPIC -g
 
 LINKER_FLAGS=-shared

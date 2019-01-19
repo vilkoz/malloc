@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:42:49 by vrybalko          #+#    #+#             */
-/*   Updated: 2019/01/19 17:02:29 by vrybalko         ###   ########.fr       */
+/*   Updated: 2019/01/19 18:31:19 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,27 @@
 static void			*g_base[3] = {NULL, NULL, NULL};
 pthread_mutex_t		g_malloc_mutex;
 
+static void			split_block(t_block_meta *b, size_t size)
+{
+	t_block_meta		*new_block;
+
+	if (b->size - size < META_SIZE * 2)
+		return ;
+	new_block = (void*)(b + 1) + size;
+	new_block->size = b->size - META_SIZE * 2 - size;
+	new_block->type = b->type;
+	new_block->magic = b->magic;
+	new_block->next = b->next;
+	new_block->free = 1;
+	b->next = new_block;
+	b->size = size;
+}
+
 static t_block_meta	*find_free_block(size_t size)
 {
 	t_block_meta		*last;
 	t_block_meta		*current;
+	size_t				tmp_size;
 
 	current = g_base[select_zone_type(size)];
 	last = NULL;
@@ -34,10 +51,16 @@ static t_block_meta	*find_free_block(size_t size)
 	}
 	if (current == NULL)
 	{
-		current = request_block(size, last);
+		if (select_zone_type(size) != ZONE_LARGE)
+			tmp_size = (select_zone_type(size) + 1) * 4096 - META_SIZE;
+		else
+			tmp_size = size;
+		current = request_block(tmp_size, last);
 		if (current)
 			current->type = select_zone_type(size);
 	}
+	if (current->size > size)
+		split_block(current, size);
 	if (g_base[select_zone_type(size)] == NULL)
 		g_base[select_zone_type(size)] = current;
 	return (current);
