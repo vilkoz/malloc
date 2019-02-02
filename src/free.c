@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 16:56:58 by vrybalko          #+#    #+#             */
-/*   Updated: 2019/01/19 18:42:03 by vrybalko         ###   ########.fr       */
+/*   Updated: 2019/02/02 11:48:03 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int						is_pointer_valid(void *p)
 	base = get_block_base();
 	res = zone_search_block(base[0], p) || zone_search_block(base[1], p)
 			|| zone_search_block(base[2], p);
-	return res;
+	return (res);
 }
 
 static t_block_meta		*validate_block(void *m)

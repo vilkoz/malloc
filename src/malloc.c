@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:42:49 by vrybalko          #+#    #+#             */
-/*   Updated: 2019/01/19 18:31:19 by vrybalko         ###   ########.fr       */
+/*   Updated: 2019/02/02 11:49:24 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,9 @@ static t_block_meta	*find_free_block(size_t size)
 	}
 	if (current == NULL)
 	{
-		if (select_zone_type(size) != ZONE_LARGE)
-			tmp_size = (select_zone_type(size) + 1) * 4096 - META_SIZE;
-		else
-			tmp_size = size;
+		//asfo
+		tmp_size = (select_zone_type(size) != ZONE_LARGE) ?
+			(select_zone_type(size) + 1) * 4096 - META_SIZE : size;
 		current = request_block(tmp_size, last);
 		if (current)
 			current->type = select_zone_type(size);
